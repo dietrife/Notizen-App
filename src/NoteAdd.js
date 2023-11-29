@@ -1,10 +1,12 @@
 import { View, Text, Keyboard, StyleSheet, TextInput, TouchableOpacity} from 'react-native'
 import { React, useState } from 'react'
 import { firebase } from '../config'
+import { useNavigation } from '@react-navigation/native';
 
 const NoteAdd = () => {
     const [title, setTitle] = useState('');
     const [note, setNote] = useState('');
+    const navigation = useNavigation();
 
     const handleAdd = () => {
         firebase.firestore()
@@ -20,6 +22,7 @@ const NoteAdd = () => {
         .catch((error) => {
             alert(error)
         });
+        navigation.goBack()
     }
 return  (
     <View style={styles.container}>
@@ -32,16 +35,13 @@ return  (
         <TextInput 
             placeholder='Note'
             value={note}
-            onChangeText={(text) => setTitle(text)}
+            onChangeText={(text) => setNote(text)}
             style={styles.inputNote}
         />
         <TouchableOpacity
             style={styles.button}
-            onPress={handleAdd}
-
-    
-        >
-
+            onPress={handleAdd}>
+            <Text>Add</Text>
         </TouchableOpacity>
     </View>
     )
